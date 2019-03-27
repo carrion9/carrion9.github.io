@@ -2,7 +2,11 @@
 <html>
   <head>
   <script>
-navigator.usb.requestDevice({ filters: [{ vendorId: 0x61f1 }] })
+  	let filters = [
+			{ classCode: 255, subclassCode: 66, protocolCode: 1 },
+			{ classCode: 255, subclassCode: 66, protocolCode: 3 }
+		];
+navigator.usb.requestDevice({ filters: filters })
 .then(device => {
   console.log(device.productName);      // "Arduino Micro"
   console.log(device.manufacturerName); // "Arduino LLC"

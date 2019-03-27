@@ -6,7 +6,7 @@ var Adb = {};
 	'use strict';
 
 	Adb.Opt = {};
-	Adb.Opt.debug = false;
+	Adb.Opt.debug = true;
 	Adb.Opt.dump = false;
 
 	Adb.Opt.key_size = 2048;

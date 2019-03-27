@@ -43,6 +43,8 @@ var Adb = {};
 
 		return navigator.usb.requestDevice({ filters: filters })
 			.then(device => device.open()
+				.then(() => device.selectConfiguration(1))
+    			.then(() => device.claimInterface(device.configuration.interfaces[0].interfaceNumber))
 				.then(() => new Adb.WebUSB.Transport(device)));
 	};
 

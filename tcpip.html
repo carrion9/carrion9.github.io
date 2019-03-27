@@ -67,6 +67,60 @@
         }
       };
 
+      let pull = async (filename) => {
+        try{
+          if (!adb) throw new Error('Not connected');
+          let sync = await adb.sync();
+          let content = await sync.pull(filename);
+          log('pulling file: ',filename);
+          await sync.quit();
+
+          return content;
+        }catch(error){
+          log(error)
+        }
+      };
+
+      let push = async (filename) => {
+        try{
+          if (!adb) throw new Error('Not connected');
+          let sync = await adb.sync();
+          let content = await sync.push(filename);
+          log('pushing file: ',filename);
+          await sync.quit();
+
+          return content;
+        }catch(error){
+          log(error)
+        }
+      };
+      
+      let testPull = async () => {
+        try{
+          await init();
+          await connect();
+          let data = await pull('/sdcard/Logs/test.txt');
+          let a = document.createElement('a')
+          a.href = URL.createObjectURL(new Blob([data]));
+          a.download = "2018-01-04-21-17-20.mp4";
+          a.click();
+          await disconnect();
+        }catch(error){
+          log(error)
+        }
+      };
+      
+      let testPush = async () => {
+        try{
+          await init();
+          await connect();
+          let data = await push('test.txt');
+          await disconnect();
+        }catch(error){
+          log(error)
+        }
+      };
+
       let add_ui = () => {
         // Adb.Opt.use_checksum = false;
         Adb.Opt.debug = true;
@@ -76,6 +130,8 @@
         document.getElementById('get_ip').onclick = get_ip;
         document.getElementById('disconnect').onclick = disconnect;
         document.getElementById('tcpip').onclick = tcpip;
+        document.getElementById('testPull').onclick = testPull;
+        document.getElementById('testPush').onclick = testPush;
 
         document.getElementById('clear').onclick = () => {
           document.getElementById('log').innerText = '';
@@ -96,6 +152,14 @@
 
     <input type="text" id="port" value="5555" />
     <button id="tcpip" value="tcpip">tcpip</button>
+    <br />
+    <br />
+
+    <button id="testPull">Test pull</button>
+    <br />
+    <br />
+
+    <button id="testPush">Test push</button>
     <br />
     <br />
 

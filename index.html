@@ -7,10 +7,12 @@
 			{ classCode: 255, subclassCode: 66, protocolCode: 3 }
 		];
 navigator.usb.requestDevice({ filters: filters })
-.then(device => {
-  console.log(device.productName);      // "Arduino Micro"
-  console.log(device.manufacturerName); // "Arduino LLC"
-})
+.then(device  device.open()
+	.then( device => {
+	  console.log(device.productName);      
+	  console.log(device.manufacturerName); 
+	})
+);
 .catch(error => { console.log(error); });
 </script>
 
